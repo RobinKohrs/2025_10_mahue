@@ -8,9 +8,11 @@ library(cli)
 library(davR)
 library(terra)
 
-
-# Set up project paths
-data_raw_path = here("data_raw")
-data_output_path = here("data_output")
-graphic_output_path = here("graphic_output")
-
+# ++++++++++++++++++++++++++++++
+# load data ----
+# ++++++++++++++++++++++++++++++
+path_data <- "/Users/rk/Library/Mobile Documents/com~apple~CloudDocs/geodata/österreich/wien/Unfälle/Statistik Austria 7.10.2025 /2013_2024_Wien.csv"
+data_raw <- read.delim(path_data, sep = "\t") %>%
+  mutate(
+    across(contains("WGS84"), ~ as.numeric(str_replace_all(.x, ",", ".")))
+  )
