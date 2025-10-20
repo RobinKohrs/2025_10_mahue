@@ -1,0 +1,5 @@
+# .styler.toml
+# This configuration file tells styler to allow "=" for variable assignment.
+
+[eq_assign_op]
+tok_is_assignment = true

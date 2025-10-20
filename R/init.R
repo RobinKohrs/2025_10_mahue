@@ -11,7 +11,7 @@ library(terra)
 # ++++++++++++++++++++++++++++++
 # load data ----
 # ++++++++++++++++++++++++++++++
-path_data <- "/Users/rk/Library/Mobile Documents/com~apple~CloudDocs/geodata/österreich/wien/Unfälle/Statistik Austria 7.10.2025 /2013_2024_Wien.csv"
+path_data <- "/Users/rk/Library/Mobile Documents/com~apple~CloudDocs/geodata/österreich/wien/Unfälle/Statistik Austria 17.10.2025/2013_2024_WienNEU1610.csv"
 data_raw <- read.delim(path_data, sep = "\t") %>%
   mutate(
     across(contains("WGS84"), ~ as.numeric(str_replace_all(.x, ",", ".")))
@@ -23,12 +23,3 @@ data_raw <- read.delim(path_data, sep = "\t") %>%
 # ++++++++++++++++++++++++++++++
 path_out <- sys_make_path(here("data_output/unfaelle.gpkg"))
 write_sf(data_raw, path_out)
-
-
-# ++++++++++++++++++++++++++++++
-# some checks ----
-# ++++++++++++++++++++++++++++++
-data_raw %>%
-  st_drop_geometry() %>%
-  count(BETEILIGUNG, JAHR, sort = T) %>%
-  filter(str_detect(BETEILIGUNG, "E-Bike|Fahrrad"))
