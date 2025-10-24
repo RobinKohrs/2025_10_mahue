@@ -1,0 +1,51 @@
+/* Add pointer cursor only to clickable bars */
+.bar-clickable {
+	cursor: pointer !important;
+}
+
+/* Override DST framework cursor: pointer on plot overlays and SVG elements */
+.plot-overlay {
+	cursor: default !important;
+}
+
+/* Override DST framework's .dst-dj [role="button"] rule for SVG rect frame elements */
+.svelteplot svg rect.frame[role='button'] {
+	cursor: default !important;
+}
+
+/* Add rounded corners to the frame */
+/* svg rect.frame) {
+	rx: 5px;
+	ry: 5px;
+} */
+
+/* Make all gridlines the same light color (override darker zero gridline) */
+.svelteplot svg .grid line,
+.svelteplot svg .grid path,
+.svelteplot svg line[transform*='translate'],
+.svelteplot svg line[style*='stroke: currentcolor'],
+.svelteplot svg line[style*='stroke: rgb(0, 0, 0)'] {
+	stroke: #000 !important;
+	stroke-width: 1.3 !important;
+	stroke-opacity: 0.2 !important;
+}
+
+/* Only apply pointer cursor to our specific bar elements */
+.svelteplot svg .bar-clickable {
+	cursor: pointer !important;
+}
+
+.svelteplot .clicked-year-tick {
+	font-weight: bold !important;
+	fill: #7f1d1d !important; /* text-red-900 */
+}
+.svelteplot .pointer-ticks {
+	paint-order: stroke fill;
+	stroke: white;
+	stroke-width: 3px;
+	stroke-linejoin: round;
+}
+.svelteplot .clicked-bar {
+	stroke: #7f1d1d;
+	stroke-width: 2px;
+}

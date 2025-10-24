@@ -1,0 +1,21 @@
+name,en_name,id,dob,sex,age,source,update
+أحمد علي,Ahmed Ali,GAZA-0001,1990-05-15,m,35,h,1
+فاطمة محمد,Fatima Mohammed,GAZA-0002,1985-08-22,f,40,c,2
+يوسف حسن,Yusuf Hassan,GAZA-0003,2000-10-01,m,25,j,3
+مريم إبراهيم,Mariam Ibrahim,GAZA-0004,1998-03-10,f,27,h,1
+خالد سعيد,Khalid Said,GAZA-0005,2005-11-30,m,20,u,2
+سارة عبد الله,Sara Abdullah,GAZA-0006,1978-01-20,f,47,c,3
+عمر محمود,Omar Mahmoud,GAZA-0007,1992-07-07,m,33,j,1
+ليلى خالد,Leila Khalid,GAZA-0008,2010-02-14,f,15,h,2
+عبد الرحمن أحمد,Abdul Rahman Ahmed,GAZA-0009,1980-09-05,m,45,u,3
+نور حسين,Nour Hussein,GAZA-0010,1995-06-25,f,30,c,1
+علي حسن,Ali Hassan,GAZA-0011,2002-04-18,m,23,j,2
+هنا مصطفى,Hana Mustafa,GAZA-0012,1988-12-03,f,37,h,3
+محمد سعيد,Mohammed Said,GAZA-0013,1975-10-12,m,50,u,1
+زينب علي,Zainab Ali,GAZA-0014,2015-08-19,f,10,c,2
+إبراهيم محمود,Ibrahim Mahmoud,GAZA-0015,1999-11-08,m,26,j,3
+عائشة عمر,Aisha Omar,GAZA-0016,1983-02-28,f,42,h,1
+محمود خالد,Mahmoud Khalid,GAZA-0017,2008-07-21,m,17,u,2
+دينا أحمد,Dina Ahmed,GAZA-0018,1993-04-02,f,32,c,3
+سعيد يوسف,Saeed Yusuf,GAZA-0019,1970-03-15,m,55,j,1
+رنا محمد,Rana Mohammed,GAZA-0020,2018-01-01,f,7,h,2

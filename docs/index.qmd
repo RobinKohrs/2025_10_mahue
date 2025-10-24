@@ -86,6 +86,10 @@ geo_mh_line <- read_sf(path_innere_mh)
 
 # buffer line
 geo_mh_buff_13m <- st_buffer(geo_mh_line, 13) %>% summarise()
+path_out_mh = here("data_output/nur_fahrrad_unfaelle/innere_maria_hilfer.fgb")
+unlink(path_out_mh)
+st_write(geo_mh_buff_13m, path_out_mh)
+
 
 # buffer near area
 geo_mh_buff_1km <- st_buffer(geo_mh_buff_13m, 1000, singleSide = T)
@@ -100,6 +104,13 @@ geo_mh_buff_near <- st_difference(geo_mh_buff_1km, geo_mh_buff_13m)
 # accidents on the  mh
 unfaelle_on_mh <- geo_unfaelle_bike %>%
     st_filter(geo_mh_buff_13m)
+
+# write out unfälle on maria hilfer
+path_out_fahrrad_mh = here("data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb")
+path_out_fahrrad_csv = here("random-images/static/unfaellle_mh.csv")
+unlink(path_out_fahrrad_mh)
+st_write(unfaelle_on_mh, path_out_fahrrad_mh)
+write_csv(unfaelle_on_mh %>% st_drop_geometry(), path_out_fahrrad_csv)
 
 unfaelle_on_mh_count <- unfaelle_on_mh %>%
     count(JAHR, name = "accidents_on_mh")

@@ -1,0 +1,100 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"$charts": [
+				"../src/charts"
+			],
+			"$charts/*": [
+				"../src/charts/*"
+			],
+			"$components": [
+				"../src/components"
+			],
+			"$components/*": [
+				"../src/components/*"
+			],
+			"$logic": [
+				"../src/logic"
+			],
+			"$logic/*": [
+				"../src/logic/*"
+			],
+			"$pages": [
+				"../src/pages"
+			],
+			"$pages/*": [
+				"../src/pages/*"
+			],
+			"$state": [
+				"../src/state"
+			],
+			"$state/*": [
+				"../src/state/*"
+			],
+			"$styles": [
+				"../src/styles"
+			],
+			"$styles/*": [
+				"../src/styles/*"
+			],
+			"$types": [
+				"../src/types"
+			],
+			"$types/*": [
+				"../src/types/*"
+			],
+			"$utils": [
+				"../src/utils"
+			],
+			"$utils/*": [
+				"../src/utils/*"
+			],
+			"$lib": [
+				"../src/lib"
+			],
+			"$lib/*": [
+				"../src/lib/*"
+			],
+			"$app/types": [
+				"./types/index.d.ts"
+			]
+		},
+		"rootDirs": [
+			"..",
+			"./types"
+		],
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"lib": [
+			"esnext",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"moduleResolution": "bundler",
+		"module": "esnext",
+		"noEmit": true,
+		"target": "esnext"
+	},
+	"include": [
+		"ambient.d.ts",
+		"non-ambient.d.ts",
+		"./types/**/$types.d.ts",
+		"../vite.config.js",
+		"../vite.config.ts",
+		"../src/**/*.js",
+		"../src/**/*.ts",
+		"../src/**/*.svelte",
+		"../tests/**/*.js",
+		"../tests/**/*.ts",
+		"../tests/**/*.svelte"
+	],
+	"exclude": [
+		"../node_modules/**",
+		"../src/service-worker.js",
+		"../src/service-worker/**/*.js",
+		"../src/service-worker.ts",
+		"../src/service-worker/**/*.ts",
+		"../src/service-worker.d.ts",
+		"../src/service-worker/**/*.d.ts"
+	]
+}

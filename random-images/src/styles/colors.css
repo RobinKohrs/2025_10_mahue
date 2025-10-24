@@ -1,0 +1,62 @@
+main {
+	/* app colors */
+	--primary: 223 75% 30%;
+	--secondary: 220 51% 81%;
+	--foreground-primary: 0 0% 100%;
+	--foreground-secondary: 223 75% 30%;
+	--on-surface: 0 0% 13%;
+	--muted-foreground: 215.4 16.3% 46.9%;
+	--border: 220 51% 81%;
+	--pink: 324 100% 46%;
+	/* new dw colors*/
+	--dw-weinrot-light: 175 79 113;
+	--dw-weinrot-base: 123 31 69;
+	--dw-weinrot-dark: 64 0 29;
+	--dw-violet-light: 170 96 169;
+	--dw-violet-base: 120 49 119;
+	--dw-violet-dark: 71 0 72;
+	--dw-lila-light: 148 120 215;
+	--dw-lila-base: 102 72 162;
+	--dw-lila-dark: 60 24 112;
+	--dw-blau-light: 106 149 241;
+	--dw-blau-base: 61 100 187;
+	--dw-blau-dark: 19 52 136;
+	--dw-aqua-light: 0 179 240;
+	--dw-aqua-base: 0 127 171;
+	--dw-aqua-dark: 0 79 108;
+	--dw-türkis-light: 0 201 209;
+	--dw-türkis-base: 0 146 152;
+	--dw-türkis-dark: 0 95 99;
+	--dw-blaugrün-light: 18 222 170;
+	--dw-blaugrün-base: 0 165 125;
+	--dw-blaugrün-dark: 0 111 83;
+	--dw-grün-light: 145 220 107;
+	--dw-grün-base: 102 174 60;
+	--dw-grün-dark: 58 123 0;
+	--dw-gelb-light: 228 213 48;
+	--dw-gelb-base: 181 168 0;
+	--dw-gelb-dark: 128 119 0;
+	--dw-orange-light: 255 214 165;
+	--dw-orange-base: 239 157 0;
+	--dw-orange-dark: 175 113 0;
+	--dw-rot-light: 255 229 220;
+	--dw-rot-base: 255 163 131;
+	--dw-rot-dark: 226 92 38;
+	
+	/* RSB App Highlight Colors - Muted Blue Palette */
+	--rsb-highlight-light: 227 237 245; /* Very light blue background for highlights */
+	--rsb-highlight: 129 161 194; /* Base muted blue (#81A1C2) for borders, underlines */
+	--rsb-highlight-transparent: 129 161 194 / 0.1; /* Transparent blue for subtle fills */
+	--rsb-highlight-text: 71 100 125; /* Darker blue for text on light backgrounds */
+	--rsb-highlight-button: 107 141 175; /* Medium blue for buttons */
+	--rsb-highlight-button-hover: 85 121 155; /* Darker blue for button hover */
+	
+	/* RSB App Warning Colors - Orange */
+	--rsb-warning-light: 254 215 170; /* Light orange background for warnings */
+	--rsb-warning: 251 146 60; /* Orange for warning borders */
+	--rsb-warning-transparent: 251 146 60 / 0.1; /* Transparent orange for subtle fills */
+	--rsb-warning-text: 154 52 18; /* Dark orange for warning text */
+	--rsb-warning-button: 234 88 12; /* Medium orange for warning buttons */
+	--rsb-warning-button-hover: 194 65 12; /* Darker orange for warning button hover */
+
+}

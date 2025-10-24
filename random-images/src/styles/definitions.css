@@ -1,0 +1,201 @@
+main {
+	--stylingtoolkit-version: '6.0.1';
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Info Variable';
+	font-style: normal;
+	font-weight: 200 900;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-info.woff2)
+		format('woff2-variations');
+	unicode-range: U+000A, U+0020-002F, U+0030-0039, U+003A-0040, U+0041-005A,
+		U+005B-0060, U+0061-007A, U+007B-007E, U+2013, U+203A, U+2026, U+201E,
+		U+201C, U+00A9, U+20AC, U+00C0-00FF, U+1E9E, U+011E, U+011F, U+0160,
+		U+0161, U+201A, U+2018, U+00A0-00A8, U+00AA-00BF, U+0100-011D,
+		U+0120-0148, U+014A-015F, U+0162-017F, U+0180-01BF, U+0200-0217,
+		U+0218-021B, U+1F5E9;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Info Variable';
+	font-style: italic;
+	font-weight: 200 900;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-info-italic.woff2)
+		format('woff2-variations');
+	unicode-range: U+000A, U+0020-002F, U+0030-0039, U+003A-0040, U+0041-005A,
+		U+005B-0060, U+0061-007A, U+007B-007E, U+2013, U+203A, U+2026, U+201E,
+		U+201C, U+00A9, U+20AC, U+00C0-00FF, U+1E9E, U+011E, U+011F, U+0160,
+		U+0161, U+201A, U+2018, U+00A0-00A8, U+00AA-00BF, U+0100-011D,
+		U+0120-0148, U+014A-015F, U+0162-017F, U+0180-01BF, U+0200-0217,
+		U+0218-021B, U+1F5E9;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Text Variable';
+	font-style: normal;
+	font-weight: 300 700;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-text.woff2)
+		format('woff2-variations');
+	unicode-range: U+000A, U+0020-002F, U+0030-0039, U+003A-0040, U+0041-005A,
+		U+005B-0060, U+0061-007A, U+007B-007E, U+2013, U+203A, U+2026, U+201E,
+		U+201C, U+00A9, U+20AC, U+00C0-00FF, U+1E9E, U+011E, U+011F, U+0160,
+		U+0161, U+201A, U+2018, U+00A0-00A8, U+00AA-00BF, U+0100-011D,
+		U+0120-0148, U+014A-015F, U+0162-017F, U+0180-01BF, U+0200-0217,
+		U+0218-021B;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Text Variable';
+	font-style: italic;
+	font-weight: 300 700;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-text-italic.woff2)
+		format('woff2-variations');
+	unicode-range: U+000A, U+0020-002F, U+0030-0039, U+003A-0040, U+0041-005A,
+		U+005B-0060, U+0061-007A, U+007B-007E, U+2013, U+203A, U+2026, U+201E,
+		U+201C, U+00A9, U+20AC, U+00C0-00FF, U+1E9E, U+011E, U+011F, U+0160,
+		U+0161, U+201A, U+2018, U+00A0-00A8, U+00AA-00BF, U+0100-011D,
+		U+0120-0148, U+014A-015F, U+0162-017F, U+0180-01BF, U+0200-0217,
+		U+0218-021B;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Titel Variable';
+	font-style: normal;
+	font-weight: 100 900;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-titel.woff2)
+		format('woff2-variations');
+	unicode-range: U+000A, U+0020-002F, U+0030-0039, U+003A-0040, U+0041-005A,
+		U+005B-0060, U+0061-007A, U+007B-007E, U+2013, U+203A, U+2026, U+201E,
+		U+201C, U+00A9, U+20AC, U+00C0-00FF, U+1E9E, U+011E, U+011F, U+0160,
+		U+0161, U+201A, U+2018, U+00A0-00A8, U+00AA-00BF, U+0100-011D,
+		U+0120-0148, U+014A-015F, U+0162-017F, U+0180-01BF, U+0200-0217,
+		U+0218-021B;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Titel Variable';
+	font-style: italic;
+	font-weight: 100 900;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-titel-italic.woff2)
+		format('woff2-variations');
+	unicode-range: U+000A, U+0020-002F, U+0030-0039, U+003A-0040, U+0041-005A,
+		U+005B-0060, U+0061-007A, U+007B-007E, U+2013, U+203A, U+2026, U+201E,
+		U+201C, U+00A9, U+20AC, U+00C0-00FF, U+1E9E, U+011E, U+011F, U+0160,
+		U+0161, U+201A, U+2018, U+00A0-00A8, U+00AA-00BF, U+0100-011D,
+		U+0120-0148, U+014A-015F, U+0162-017F, U+0180-01BF, U+0200-0217,
+		U+0218-021B;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Grande Variable';
+	font-style: normal;
+	font-weight: 100 900;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-grande.woff2)
+		format('woff2-variations');
+	unicode-range: U+000A, U+0020-002F, U+0030-0039, U+003A-0040, U+0041-005A,
+		U+005B-0060, U+0061-007A, U+007B-007E, U+2013, U+203A, U+2026, U+201E,
+		U+201C, U+00A9, U+20AC, U+00C0-00FF, U+1E9E, U+011E, U+011F, U+0160,
+		U+0161, U+201A, U+2018, U+00A0-00A8, U+00AA-00BF, U+0100-011D,
+		U+0120-0148, U+014A-015F, U+0162-017F, U+0180-01BF, U+0200-0217,
+		U+0218-021B;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'STMatilda Brand';
+	font-style: normal;
+	font-weight: 400;
+	src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-brand.woff2)
+		format('woff2');
+	unicode-range: U+000A, U+0020-00A0, U+00A9, U+00AB, U+00AC, U+00AD, U+00AE,
+		U+00AF, U+00B0, U+00B4, U+00B6, U+00B7, U+00BB, U+00C4, U+00D6, U+00D7,
+		U+00DC, U+00DF, U+00E4, U+00F6, U+00FC, U+0394, U+1E9E, U+2009-201E,
+		U+2022-2044, U+20AC, U+2212, U+FB01, U+FB02;
+}
+
+main {
+	--font-info: 'STMatilda Info Variable', system-ui, sans-serif;
+	--w1-heading: 700 1.125rem / 1.2 var(--font-info);
+	--w2-heading: 700 1.25rem / 1.2 var(--font-info);
+	--w3-heading: 700 1.4375rem / 1.1 var(--font-info);
+	--w4-heading: 700 1.625rem / 1.1 var(--font-info);
+	--w5-heading: 700 1.8125rem / 1.1 var(--font-info);
+	--w6-heading: 700 2rem / 1.1 var(--font-info);
+	--w7-heading: 700 2.25rem / 1.1 var(--font-info);
+	--w8-heading: 700 2.5625rem / 1.1 var(--font-info);
+	--w9-heading: 700 2.875rem / 1.1 var(--font-info);
+	--w10-heading: 700 3.25rem / 1.1 var(--font-info);
+	--w11-heading: 700 3.625rem / 1.1 var(--font-info);
+	--w1-small: 420 0.75rem / 1.4 var(--font-info);
+	--w1-info: 420 0.75rem / 1.4 var(--font-info);
+	--w2-info: 420 0.8125rem / 1.4 var(--font-info);
+	--w3-info: 420 0.875rem / 1.4 var(--font-info);
+	--w4-info: 420 0.9375rem / 1.4 var(--font-info);
+	--w5-info: 420 1rem / 1.4 var(--font-info);
+	--w6-info: 420 1.0625rem / 1.4 var(--font-info);
+	--w7-info: 420 1.125rem / 1.4 var(--font-info);
+	--w8-info: 420 1.25rem / 1.4 var(--font-info);
+	--w9-info: 420 1.375rem / 1.4 var(--font-info);
+	--w10-info: 420 1.5rem / 1.4 var(--font-info);
+	--w1-info-adapt: 420 var(--_w1-info-size, 0.75rem) / 1.4 var(--font-info);
+	--w2-info-adapt: 420 var(--_w2-info-size, 0.8125rem) / 1.4 var(--font-info);
+	--w3-info-adapt: 420 var(--_w3-info-size, 0.875rem) / 1.4 var(--font-info);
+	--w4-info-adapt: 420 var(--_w4-info-size, 0.9375rem) / 1.4 var(--font-info);
+	--w5-info-adapt: 420 var(--_w5-info-size, 1rem) / 1.4 var(--font-info);
+	--w6-info-adapt: 420 var(--_w6-info-size, 1.0625rem) / 1.4 var(--font-info);
+	--w7-info-adapt: 420 var(--_w7-info-size, 1.0625rem) / 1.4 var(--font-info);
+}
+
+main {
+	--font-text: 'STMatilda Text Variable', system-ui, serif;
+	--w1-text: 420 0.75rem / 1.4 var(--font-text);
+	--w2-text: 420 0.8125rem / 1.4 var(--font-text);
+	--w3-text: 420 0.875rem / 1.4 var(--font-text);
+	--w4-text: 420 0.9375rem / 1.4 var(--font-text);
+	--w5-text: 420 1rem / 1.4 var(--font-text);
+	--w6-text: 420 1.0625rem / 1.4 var(--font-text);
+	--w7-text: 420 1.125rem / 1.4 var(--font-text);
+	--w8-text: 420 1.25rem / 1.4 var(--font-text);
+	--w9-text: 420 1.375rem / 1.4 var(--font-text);
+	--w10-text: 420 1.5rem / 1.4 var(--font-text);
+}
+
+main {
+	--font-title: 'STMatilda Titel Variable', system-ui, serif;
+	--w1-title: 700 1.125rem / 1.2 var(--font-title);
+	--w2-title: 700 1.25rem / 1.2 var(--font-title);
+	--w3-title: 700 1.4375rem / 1.1 var(--font-title);
+	--w4-title: 700 1.625rem / 1.1 var(--font-title);
+	--w5-title: 700 1.8125rem / 1.1 var(--font-title);
+	--w6-title: 700 2rem / 1.1 var(--font-title);
+	--w7-title: 700 2.25rem / 1.1 var(--font-title);
+	--w8-title: 700 2.5625rem / 1.1 var(--font-title);
+	--w9-title: 700 2.875rem / 1.1 var(--font-title);
+	--w10-title: 700 3.25rem / 1.1 var(--font-title);
+	--w11-title: 700 3.625rem / 1.1 var(--font-title);
+}
+
+main {
+	--font-grande: 'STMatilda Grande Variable', system-ui, serif;
+	--w1-grande: 400 2.875rem / 1.1 var(--font-grande);
+	--w2-grande: 400 3.25rem / 1.1 var(--font-grande);
+	--w3-grande: 400 3.625rem / 1.1 var(--font-grande);
+	--w4-grande: 400 4.125rem / 1.1 var(--font-grande);
+	--w5-grande: 400 4.625rem / 1.1 var(--font-grande);
+}
+
+main {
+	--font-brand: 'STMatilda Brand', system-ui, sans-serif;
+	--w1-brand: 400 1.25rem / 1 var(--font-brand);
+	--w2-brand: 400 1.5625rem / 1 var(--font-brand);
+	--w3-brand: 400 1.875rem / 1 var(--font-brand);
+	--w4-brand: 400 2.1875rem / 1 var(--font-brand);
+	--w5-brand: 400 2.5rem / 1 var(--font-brand);
+}
