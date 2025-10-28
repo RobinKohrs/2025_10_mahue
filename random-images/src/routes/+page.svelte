@@ -3,14 +3,46 @@ import { onMount } from 'svelte'
 import Papa from 'papaparse'
 
 let accidents = $state([])
+let randomAccident = $state(null)
+let imageUrl = $state('')
+let detailsVisible = $state()
 
 onMount(() => {
 	fetchAccidents()
 })
 
+function toggleDetails() {
+	detailsVisible = !detailsVisible
+}
+
+function selectRandomAccident() {
+	if (accidents.length > 0) {
+		const randomIndex = Math.floor(Math.random() * accidents.length)
+		randomAccident = accidents[randomIndex]
+		detailsVisible = false // Collapse details on new accident
+		updateImageUrl()
+	}
+}
+
+async function updateImageUrl() {
+	if (randomAccident) {
+		const url = `atlas/uid_${randomAccident.uid}.webp?testsasd`
+		try {
+			const response = await fetch(url)
+			if (response.ok) {
+				imageUrl = url
+			} else {
+				imageUrl = '' // Or a placeholder image
+			}
+		} catch (error) {
+			imageUrl = '' // Or a placeholder image
+		}
+	}
+}
+
 async function fetchAccidents() {
 	try {
-		const response = await fetch(`/unfaelle_mahue.csv`)
+		const response = await fetch(`unfaellle_mh.csv`)
 		if (!response.ok) {
 			throw new Error('Network response was not ok')
 		}
@@ -20,6 +52,9 @@ async function fetchAccidents() {
 			header: true,
 			complete: results => {
 				accidents = results.data
+					.map((row, index) => ({ ...row, uid: index + 1 }))
+					.filter(a => a.REFUOID) // Use a valid column to filter empty rows
+				selectRandomAccident()
 			}
 		})
 	} catch (error) {
@@ -29,8 +64,70 @@ async function fetchAccidents() {
 </script>
 
 <div class="dj-container">
-	<h1 class="dj-title">Bike Accidents</h1>
-	<pre>{JSON.stringify(accidents, null, 2)}</pre>
+	{#if accidents.length > 0 && randomAccident}
+		<div class="accident-details">
+			{#if imageUrl}
+				<div class="image-container">
+					<img
+						src={imageUrl}
+						alt="Unfallort"
+						class="accident-image" />
+					<button
+						class="custom-button top-left"
+						on:click={selectRandomAccident}>
+						Zufälliger Unfall
+					</button>
+
+					<button
+						class="custom-button top-right"
+						on:click={toggleDetails}>
+						ⓘ
+					</button>
+
+					{#if detailsVisible}
+						<div class="modal-overlay" on:click={toggleDetails}>
+							<div class="modal-content" on:click|stopPropagation>
+								<button
+									class="modal-close"
+									on:click={toggleDetails}>×</button>
+								<p>
+									<strong>Jahr:</strong>
+									{randomAccident.JAHR}
+								</p>
+								<p>
+									<strong>Monat:</strong>
+									{randomAccident.MONAT}
+								</p>
+								<p>
+									<strong>Wochentag:</strong>
+									{randomAccident.WOCHENTAG}
+								</p>
+								<p>
+									<strong>Uhrzeit:</strong>
+									{randomAccident.UHRZEIT}
+								</p>
+								<p>
+									<strong>Beteiligte:</strong>
+									{randomAccident.BETEILIGUNG}
+								</p>
+							</div>
+						</div>
+					{/if}
+				</div>
+			{:else}
+				<p>Bild für diesen Unfall nicht verfügbar.</p>
+				<button
+					class="custom-button standalone"
+					on:click={selectRandomAccident}>
+					Zufälliger Unfall
+				</button>
+			{/if}
+		</div>
+	{:else if accidents.length > 0}
+		<p>Loading accident...</p>
+	{:else}
+		<p>Loading data...</p>
+	{/if}
 </div>
 
 <style>
@@ -98,7 +195,32 @@ async function fetchAccidents() {
 }
 .dj-button {
 	display: block;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 10;
 	margin: 10px auto 0;
+	background-color: #b56161;
+	font-family: 'STMatilda Info Variable', Arial, sans-serif;
+	color: green;
+	padding: 10px 15px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+}
+.dj-button:hover {
+	background-color: #a05454;
+}
+.dj-button.standalone {
+	position: static;
+	margin-top: 10px;
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+	border: 1px solid #ccc;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	padding: 8px 12px;
+	font-size: 14px;
+	cursor: pointer;
 }
 .dj-day-section {
 	margin-bottom: 0;
@@ -111,18 +233,6 @@ async function fetchAccidents() {
 	margin-top: 0;
 	margin-bottom: 10px;
 	text-align: center;
-}
-.dj-button {
-	background-color: #b56161;
-	font-family: 'STMatilda Info Variable', Arial, sans-serif;
-	color: white;
-	padding: 10px 15px;
-	border: none;
-	cursor: pointer;
-	font-size: 16px;
-}
-.dj-button:hover {
-	background-color: #a05454;
 }
 .dj-source {
 	font-size: 12px;
@@ -138,6 +248,83 @@ async function fetchAccidents() {
 }
 .dj-source a:hover {
 	text-decoration: underline;
+}
+.accident-details {
+	margin-bottom: 20px;
+	text-align: center;
+}
+.image-container {
+	position: relative;
+	margin-bottom: 10px;
+}
+.accident-image {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+.custom-button {
+	position: absolute;
+	z-index: 10;
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+	border: 1px solid #ccc;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	padding: 8px 12px;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 6px;
+}
+.custom-button.top-left {
+	top: 10px;
+	left: 10px;
+}
+.custom-button.top-right {
+	top: 10px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	padding: 0;
+	border-radius: 50%;
+	font-size: 20px;
+	line-height: 30px;
+	text-align: center;
+}
+.custom-button.standalone {
+	position: static;
+	margin-top: 10px;
+}
+.modal-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.75);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 20;
+}
+.modal-content {
+	background-color: white;
+	padding: 20px;
+	border-radius: 5px;
+	position: relative;
+	color: #333;
+	max-width: 80%;
+}
+.modal-close {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	background: none;
+	border: none;
+	font-size: 24px;
+	cursor: pointer;
+	color: #999;
+}
+.details-content {
+	margin-top: 10px;
 }
 
 @media (max-width: 615px) {

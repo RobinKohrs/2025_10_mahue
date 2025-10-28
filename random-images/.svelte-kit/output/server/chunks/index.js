@@ -1,6 +1,5 @@
-import { e as escape_html } from "./escaping.js";
+import { e as escape_html, a as set_ssr_context, b as ssr_context, p as push, c as pop } from "./context.js";
 import { clsx as clsx$1 } from "clsx";
-import { a as set_ssr_context, b as ssr_context, p as push, c as pop } from "./context.js";
 const DERIVED = 1 << 1;
 const EFFECT = 1 << 2;
 const RENDER_EFFECT = 1 << 3;
