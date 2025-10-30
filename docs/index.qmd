@@ -37,9 +37,11 @@ library(shadowtext)
 
 - [roh](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data/data_raw_statistik_austria/2013_2024_WienNEU1610.csv)
 
-- [roh aber geodaten](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/unfaelle.gpkg)
+- [roh aber geodaten (alle Unfälle)](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/unfaelle.gpkg)
 
 - [innere maria hilfer geodaten](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/innere_maria_hilfer_buffer_13m.gpkg)
+
+- [Geodaten der Maria Hilfer, nur Fahrradunfälle](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb)
 
 # Entwicklung der Fahrradunfälle
 
