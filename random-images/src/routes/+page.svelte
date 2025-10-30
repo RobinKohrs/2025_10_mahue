@@ -6,6 +6,56 @@ let accidents = $state([])
 let randomAccident = $state(null)
 let imageUrl = $state('')
 let detailsVisible = $state()
+let accidentText = $state('')
+
+const monthMap = {
+	'1': 'Jänner',
+	'2': 'Februar',
+	'3': 'März',
+	'4': 'April',
+	'5': 'Mai',
+	'6': 'Juni',
+	'7': 'Juli',
+	'8': 'August',
+	'9': 'September',
+	'10': 'Oktober',
+	'11': 'November',
+	'12': 'Dezember'
+}
+
+const weekdayMap = {
+	Mon: 'Montag',
+	Tue: 'Dienstag',
+	Wed: 'Mittwoch',
+	Thu: 'Donnerstag',
+	Fri: 'Freitag',
+	Sat: 'Samstag',
+	Sun: 'Sonntag'
+}
+
+function generateAccidentText(accident) {
+	if (!accident || !accident.UHRZEIT) return ''
+
+	const year = accident.JAHR
+	const month = monthMap[accident.MONAT] || accident.MONAT
+	const weekday = weekdayMap[accident.WOCHENTAG] || accident.WOCHENTAG
+	const beteiligung = accident.BETEILIGUNG
+
+	let timeClause = ''
+	if (accident.UHRZEIT.includes('bis')) {
+		timeClause = `zwischen <strong>${accident.UHRZEIT.replace('bis', 'und')}</strong>`
+	} else {
+		timeClause = `um <strong>${accident.UHRZEIT}</strong>`
+	}
+
+	return `Dieser Unfall ereignete sich an einem <strong>${weekday}</strong> im <strong>${month} ${year}</strong> ${timeClause}. Beteiligte: <strong>${beteiligung}</strong>.`
+}
+
+$effect(() => {
+	if (randomAccident) {
+		accidentText = generateAccidentText(randomAccident)
+	}
+})
 
 onMount(() => {
 	fetchAccidents()
@@ -73,7 +123,7 @@ async function fetchAccidents() {
 						alt="Unfallort"
 						class="accident-image" />
 					<button
-						class="custom-button top-left"
+						class="custom-button top-left hover:bg-red-500"
 						on:click={selectRandomAccident}>
 						Zufälliger Unfall
 					</button>
@@ -90,26 +140,7 @@ async function fetchAccidents() {
 								<button
 									class="modal-close"
 									on:click={toggleDetails}>×</button>
-								<p>
-									<strong>Jahr:</strong>
-									{randomAccident.JAHR}
-								</p>
-								<p>
-									<strong>Monat:</strong>
-									{randomAccident.MONAT}
-								</p>
-								<p>
-									<strong>Wochentag:</strong>
-									{randomAccident.WOCHENTAG}
-								</p>
-								<p>
-									<strong>Uhrzeit:</strong>
-									{randomAccident.UHRZEIT}
-								</p>
-								<p>
-									<strong>Beteiligte:</strong>
-									{randomAccident.BETEILIGUNG}
-								</p>
+								<p>{@html accidentText}</p>
 							</div>
 						</div>
 					{/if}
@@ -273,6 +304,9 @@ async function fetchAccidents() {
 	font-size: 14px;
 	cursor: pointer;
 	border-radius: 6px;
+}
+.custom-button:hover {
+	background-color: #aaa;
 }
 .custom-button.top-left {
 	top: 10px;
