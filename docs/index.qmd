@@ -15,7 +15,8 @@ execute:
   message: false
 ---
 
-- Wan sind die Scooter dazugebkommen?
+> 
+- Wan sind die Scooter dazugekommen?
 - 2021 vllt Corona?
 - Scooter Zahlen recherchieren?!
 
@@ -31,6 +32,14 @@ library(mapview)
 library(DatawRappr)
 library(shadowtext)
 ```
+
+# Daten
+
+- [roh](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data/data_raw_statistik_austria/2013_2024_WienNEU1610.csv)
+
+- [roh aber geodaten](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/unfaelle.gpkg)
+
+- [innere maria hilfer geodaten](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/innere_maria_hilfer_buffer_13m.gpkg)
 
 # Entwicklung der Fahrradunfälle
 
@@ -374,4 +383,10 @@ print(plot_on_mh)
 print(plot_near_mh)
 print(plot_vienna)
 ```
+
+
+# Random images from accidents
+
+<iframe id="myFrame" src="https://b.staticfiles.at/elm/static/2025-10-mh/index.html"
+        width="100%" height="800px" style="border:none;"></iframe>
 
