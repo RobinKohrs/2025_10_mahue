@@ -43,7 +43,10 @@ library(shadowtext)
 
 - [Geodaten der Maria Hilfer, nur Fahrradunfälle](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb)
 
-# Entwicklung der Fahrradunfälle
+- [CSV der Fahhradunfälle auf der Mahü mit Koordinaten der Unfälle](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb)
+
+- [CSV der Uhrezeiten der Unfälle](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb)
+
 
 ```{r unfalle-in-und-nahe-mahue}
 m <- mapview
@@ -52,21 +55,22 @@ m <- mapview
 # ++++++++++++++++++++++++++++++
 # paths to data ----
 # ++++++++++++++++++++++++++++++
-path_unfaelle <- here("data_output/unfaelle.gpkg")
-path_innere_mh <- here("data_output/innere_maria_hilfer.gpkg")
+p_unfaelle_gpkg <- here("data_output/unfaelle.gpkg")
+p_innere_mh_gpkg <- here("data_output/innere_maria_hilfer.gpkg")
 
 # ++++++++++++++++++++++++++++++
 #  load and create  data ----
 # ++++++++++++++++++++++++++++++
 
 # UNFALLE ----
-geo_unfaelle <- read_sf(path_unfaelle) %>% st_transform(31287)
-geo_unfaelle_bike <- geo_unfaelle %>%
+sf_unfaelle_wien_31287 <- read_sf(p_unfaelle_gpkg) %>% st_transform(31287)
+sf_unfaelle_bike_wien_31287 <- sf_unfaelle_wien_31287 %>%
     filter(str_detect(BETEILIGUNG, "(?i)fahrrad|e[- ]?bike|scooter"))
 ```
 
 # Klassifierung der Unfälle
 
+Wann stand was in den Daten?!
 
 **<span style="color: tomato;">Von 2013-2017</span>**<br>
 Fahrräder und Elektrofahrräder werden zusammen ausgewiesen als (Elektro-) Fahrrad
@@ -78,9 +82,12 @@ Erste E-Scooter werden bei den Fahrrädern hinzugerechnet - oder bei den E-Bikes
 **<span style="color: tomato;">Ab 2023</span>**<br>
 E-Bikes, E-Scooter und Fahrräder werden getrennt ausgewiesen.
 
+### Anzahl der Unfälle nach Jahr und Beteiligung
+
+alle Unfälle (nicht nur Fahrradunfälle)
 
 ```{r}
-geo_unfaelle %>%
+sf_unfaelle_wien_31287 %>%
     st_drop_geometry() %>%
     count(JAHR, BETEILIGUNG) %>%
     arrange(JAHR, desc(n)) %>%
@@ -88,74 +95,85 @@ geo_unfaelle %>%
 ```
 
 
-
+# Fahrradunfälle
 
 ```{r dw}
+#| message: false
+#| warning: false
 
 # ROIs ----
-geo_mh_line <- read_sf(path_innere_mh)
+sf_mh_line_wien <- read_sf(p_innere_mh_gpkg)
 
 # buffer line
-geo_mh_buff_13m <- st_buffer(geo_mh_line, 13) %>% summarise()
-path_out_mh = here("data_output/nur_fahrrad_unfaelle/innere_maria_hilfer.fgb")
-unlink(path_out_mh)
-st_write(geo_mh_buff_13m, path_out_mh)
+sf_mh_buff_13m_wien <- st_buffer(sf_mh_line_wien, 13) %>% summarise()
+p_out_mh_fgb <- here("data_output/nur_fahrrad_unfaelle/innere_maria_hilfer.fgb")
+unlink(p_out_mh_fgb)
+st_write(sf_mh_buff_13m_wien, p_out_mh_fgb)
 
 
 # buffer near area
-geo_mh_buff_1km <- st_buffer(geo_mh_buff_13m, 1000, singleSide = T)
+sf_mh_buff_1km_wien <- st_buffer(sf_mh_buff_13m_wien, 1000, singleSide = T)
 
 # ++++++++++++++++++++++++++++++
 # analyse ----
 # ++++++++++++++++++++++++++++++
 
 # create near zone (1km buffer without the street)
-geo_mh_buff_near <- st_difference(geo_mh_buff_1km, geo_mh_buff_13m)
+sf_mh_buff_near_wien <- st_difference(sf_mh_buff_1km_wien, sf_mh_buff_13m_wien)
 
 # accidents on the  mh
-unfaelle_on_mh <- geo_unfaelle_bike %>%
-    st_filter(geo_mh_buff_13m)
+sf_unfaelle_on_mh_wien <- sf_unfaelle_bike_wien_31287 %>%
+    st_filter(sf_mh_buff_13m_wien)
 
 # write out unfälle on maria hilfer
-path_out_fahrrad_mh = here("data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb")
-path_out_fahrrad_csv = here("random-images/static/unfaellle_mh.csv")
-unlink(path_out_fahrrad_mh)
-st_write(unfaelle_on_mh, path_out_fahrrad_mh)
-write_csv(unfaelle_on_mh %>% st_drop_geometry(), path_out_fahrrad_csv)
+p_out_fahrrad_mh_fgb <- here("data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb")
+p_out_fahrrad_mh_csv <- here("random-images/static/unfaellle_mh.csv")
+unlink(p_out_fahrrad_mh_fgb)
+suppressMessages(st_write(sf_unfaelle_on_mh_wien, p_out_fahrrad_mh_fgb))
 
-unfaelle_on_mh_count <- unfaelle_on_mh %>%
+# write csv with coordinates of fahrradunfälle
+sf_unfaelle_on_mh_wien %>%
+    st_transform(4326) %>%
+    mutate(
+        x = st_coordinates(.)[, 1],
+        y = st_coordinates(.)[, 2]
+    ) %>%
+    write_csv(., p_out_fahrrad_mh_csv)
+
+# count of accidents on the mh
+sf_unfaelle_on_mh_count_wien <- sf_unfaelle_on_mh_wien %>%
     count(JAHR, name = "accidents_on_mh")
 
-# accidents near the mh
-unfaelle_near_mh <- geo_unfaelle_bike %>%
-    st_filter(geo_mh_buff_near)
+# accidents near the mh (1km buffer)
+sf_unfaelle_near_mh_wien <- sf_unfaelle_bike_wien_31287 %>%
+    st_filter(sf_mh_buff_near_wien)
 
-unfaelle_near_mh_count <- unfaelle_near_mh %>%
+
+# count of accidents near the mh (1km buffer)
+sf_unfaelle_near_mh_count_wien <- sf_unfaelle_near_mh_wien %>%
     count(JAHR, name = "accidents_near_mh")
 
 # accidents in all of vienna
-unfaelle_vienna <- geo_unfaelle_bike %>%
-    st_filter(geo_mh_buff_1km, .predicate = st_disjoint) %>%
-    st_filter(geo_mh_buff_near, .predicate = st_disjoint)
+sf_unfaelle_vienna_other <- sf_unfaelle_bike_wien_31287 %>%
+    st_filter(sf_mh_buff_1km_wien, .predicate = st_disjoint) %>%
+    st_filter(sf_mh_buff_near_wien, .predicate = st_disjoint)
 
-unfaelle_vienna_count <- unfaelle_vienna %>%
+# count of accidents in all of vienna
+sf_unfaelle_vienna_other_count <- sf_unfaelle_vienna_other %>%
     count(JAHR, name = "accidents_vienna")
 
 
-# remove sf class from the data
-unfaelle_on_mh_count <- unfaelle_on_mh_count %>% st_drop_geometry()
-unfaelle_near_mh_count <- unfaelle_near_mh_count %>% st_drop_geometry()
-unfaelle_vienna_count <- unfaelle_vienna_count %>% st_drop_geometry()
+# remove sf class from the count data and join the counts
+df_unfaelle_on_mh_count <- sf_unfaelle_on_mh_count_wien %>% st_drop_geometry()
+df_unfaelle_near_mh_count <- sf_unfaelle_near_mh_count_wien %>% st_drop_geometry()
+df_unfaelle_vienna_other_count <- sf_unfaelle_vienna_other_count %>% st_drop_geometry()
 
-accident_counts <- full_join(unfaelle_on_mh_count, unfaelle_near_mh_count, by = "JAHR") %>%
-    full_join(unfaelle_vienna_count, by = "JAHR") %>%
+df_accident_counts <- full_join(df_unfaelle_on_mh_count, df_unfaelle_near_mh_count, by = "JAHR") %>%
+    full_join(df_unfaelle_vienna_other_count, by = "JAHR") %>%
     arrange(JAHR)
 
-# view the result
-# print(accident_counts)
-
-# calculate indexed values for comparison
-accident_rates <- accident_counts %>%
+# calculate indexed values for comparison (indexed to 2013)
+df_accident_rates <- df_accident_counts %>%
     mutate(
         across(
             starts_with("accidents"),
@@ -164,8 +182,8 @@ accident_rates <- accident_counts %>%
         )
     )
 
-dw_data_to_chart(accident_rates, "1blwP")
-dw_data_to_chart(accident_rates, "0tHdu")
+dw_data_to_chart(df_accident_rates, "1blwP")
+dw_data_to_chart(df_accident_rates, "0tHdu")
 ```
 
 
@@ -177,98 +195,83 @@ dw_data_to_chart(accident_rates, "0tHdu")
 
 
 
-# Anteil der Fahrradunfälle an allen Unfällen
+## Anteil der Fahrradunfälle an allen Unfällen
 
 ```{r}
 # Anzahl der Fahrradunfälle in jeder Region
-bike_accidents_on_mh_count <- nrow(unfaelle_on_mh)
-bike_accidents_near_mh_count <- nrow(unfaelle_near_mh)
-bike_accidents_vienna_count <- nrow(unfaelle_vienna)
+vec_bike_accidents_on_mh_count <- nrow(sf_unfaelle_on_mh_wien)
+vec_bike_accidents_near_mh_count <- nrow(sf_unfaelle_near_mh_wien)
+vec_bike_accidents_vienna_other_count <- nrow(sf_unfaelle_vienna_other)
 
 
 # Gesamtzahl der Unfälle in jeder Region
-total_accidents_on_mh_count <- geo_unfaelle %>%
-    st_filter(geo_mh_buff_13m) %>%
+vec_total_accidents_on_mh_count <- sf_unfaelle_wien_31287 %>%
+    st_filter(sf_mh_buff_13m_wien) %>%
     nrow()
 
-total_accidents_near_mh_count <- geo_unfaelle %>%
-    st_filter(geo_mh_buff_near) %>%
+vec_total_accidents_near_mh_count <- sf_unfaelle_wien_31287 %>%
+    st_filter(sf_mh_buff_near_wien) %>%
     nrow()
 
-total_accidents_vienna_count <- geo_unfaelle %>%
-    st_filter(geo_mh_buff_13m, .predicate = st_disjoint) %>%
-    st_filter(geo_mh_buff_near, .predicate = st_disjoint) %>%
+vec_total_accidents_vienna_other_count <- sf_unfaelle_wien_31287 %>%
+    st_filter(sf_mh_buff_13m_wien, .predicate = st_disjoint) %>%
+    st_filter(sf_mh_buff_near_wien, .predicate = st_disjoint) %>%
     nrow()
 
 # Erstellen einer Tabelle mit den Ergebnissen
-accident_shares <- tibble(
-    Region = c("Auf der Mariahilferstraße", "Nahe der Mariahilferstraße", "Rest von Wien"),
-    Bike_Accidents = c(bike_accidents_on_mh_count, bike_accidents_near_mh_count, bike_accidents_vienna_count),
-    Total_Accidents = c(total_accidents_on_mh_count, total_accidents_near_mh_count, total_accidents_vienna_count)
+df_accident_shares <- tibble(
+    Region = c("Auf der Mariahilferstra<U+00DF>e", "Nahe der Mariahilferstra<U+00DF>e", "Rest von Wien"),
+    Bike_Accidents = c(vec_bike_accidents_on_mh_count, vec_bike_accidents_near_mh_count, vec_bike_accidents_vienna_other_count),
+    Total_Accidents = c(vec_total_accidents_on_mh_count, vec_total_accidents_near_mh_count, vec_total_accidents_vienna_other_count)
 ) %>%
     mutate(Share_Bike_Accidents_Percent = (Bike_Accidents / Total_Accidents) * 100)
 
 # Das Ergebnis anzeigen
-knitr::kable(accident_shares, digits = 2, caption = "Anteil der Fahrradunfälle an den Gesamtunfällen")
+knitr::kable(df_accident_shares, digits = 2, caption = "Anteil der Fahrradunfälle an den Gesamtunfällen")
 ```
 
 
-# Zeitpunkt der Fahrradunfälle
+## Zeitpunkt der Fahrradunfälle
 
 ```{r wann-unfaelle-mahue}
-# ++++++++++++++++++++++++++++++
-#  load and create  data ----
-# ++++++++++++++++++++++++++++++
-
-# UNFALLE ----
-geo_unfaelle <- read_sf(path_unfaelle) %>% st_transform(31287)
-geo_unfaelle_bike <- geo_unfaelle %>%
-    filter(str_detect(BETEILIGUNG, "(?i)fahrrad|e[- ]?bike|scooter"))
-
-# ROIs ----
-geo_mh_line <- read_sf(path_innere_mh)
-geo_mh_buff_13m <- st_buffer(geo_mh_line, 13) %>% summarise()
-
-# create near zone (1km buffer without the street)
-geo_mh_buff_1km <- st_buffer(geo_mh_buff_13m, 1000)
-geo_mh_buff_near <- st_difference(geo_mh_buff_1km, geo_mh_buff_13m)
-
+# The data used in this chunk is already loaded and prepared in previous chunks.
+# Re-running data loading would be redundant. We will use the existing variables.
 
 # ++++++++++++++++++++++++++++++
 # analyse ----
 # ++++++++++++++++++++++++++++++
 
 # accidents on the mh by time of day and weekday
-unfaelle_on_mh_by_time <- geo_unfaelle_bike %>%
-    st_filter(geo_mh_buff_13m) %>%
+df_unfaelle_on_mh_by_time <- sf_unfaelle_bike_wien_31287 %>%
+    st_filter(sf_mh_buff_13m_wien) %>%
     st_drop_geometry() %>%
     count(UHRZEIT, WOCHENTAG, name = "n") %>%
     mutate(region = "On Mariahilferstr.")
 
 # accidents near the mh by time of day and weekday
-unfaelle_near_mh_by_time <- geo_unfaelle_bike %>%
-    st_filter(geo_mh_buff_near) %>%
+df_unfaelle_near_mh_by_time <- sf_unfaelle_bike_wien_31287 %>%
+    st_filter(sf_mh_buff_near_wien) %>%
     st_drop_geometry() %>%
     count(UHRZEIT, WOCHENTAG, name = "n") %>%
     mutate(region = "Near Mariahilferstr.")
 
 # accidents in rest of vienna by time of day and weekday
-unfaelle_vienna_by_time <- geo_unfaelle_bike %>%
-    st_filter(geo_mh_buff_13m, .predicate = st_disjoint) %>%
-    st_filter(geo_mh_buff_near, .predicate = st_disjoint) %>%
+df_unfaelle_vienna_by_time <- sf_unfaelle_bike_wien_31287 %>%
+    st_filter(sf_mh_buff_13m_wien, .predicate = st_disjoint) %>%
+    st_filter(sf_mh_buff_near_wien, .predicate = st_disjoint) %>%
     st_drop_geometry() %>%
     count(UHRZEIT, WOCHENTAG, name = "n") %>%
     mutate(region = "Rest of Vienna")
 
 # combine data
-all_accidents_by_time_weekday <- bind_rows(
-    unfaelle_on_mh_by_time,
-    unfaelle_near_mh_by_time,
-    unfaelle_vienna_by_time
+df_accidents_by_time_weekday_all <- bind_rows(
+    df_unfaelle_on_mh_by_time,
+    df_unfaelle_near_mh_by_time,
+    df_unfaelle_vienna_by_time
 )
 
 # Translate weekdays to German and order factors for plotting
-time_order <- c(
+vec_time_order <- c(
     "0 bis 6 Uhr",
     "6 bis 9 Uhr",
     "9 bis 12 Uhr",
@@ -276,9 +279,9 @@ time_order <- c(
     "15 bis 18 Uhr",
     "18 bis 24 Uhr"
 )
-weekday_order_de <- c("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So")
+vec_weekday_order_de <- c("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So")
 
-all_accidents_by_time_weekday <- all_accidents_by_time_weekday %>%
+df_accidents_by_time_weekday_all <- df_accidents_by_time_weekday_all %>%
     mutate(
         WOCHENTAG = recode(
             WOCHENTAG,
@@ -290,16 +293,27 @@ all_accidents_by_time_weekday <- all_accidents_by_time_weekday %>%
             "Sat" = "Sa",
             "Sun" = "So"
         ),
-        UHRZEIT = factor(UHRZEIT, levels = rev(time_order)),
-        WOCHENTAG = factor(WOCHENTAG, levels = weekday_order_de)
+        UHRZEIT = factor(UHRZEIT, levels = rev(vec_time_order)),
+        WOCHENTAG = factor(WOCHENTAG, levels = vec_weekday_order_de)
     )
 
-# ++++++++++++++++++++++++++++++
+
+# write out the data
+p_out_time_of_bike_accidents = here("data_output/time_of_accidents.csv")
+df_accidents_by_time_weekday_all %>% 
+  pivot_wider(
+    names_from = UHRZEIT,
+    values_from = n
+  ) %>% write_csv(p_out_time_of_bike_accidents)
+
+  
+
+#++++++++++++++++++++++++++++++
 # plot heatmaps ----
 # ++++++++++++++++++++++++++++++
 
 # Plot for "On Mariahilferstr."
-plot_on_mh <- all_accidents_by_time_weekday %>%
+lst_plot_on_mh <- df_accidents_by_time_weekday_all %>%
     filter(region == "On Mariahilferstr.") %>%
     ggplot(aes(x = WOCHENTAG, y = UHRZEIT, fill = n)) +
     geom_tile(color = "white", size = 0.5) +
@@ -314,7 +328,7 @@ plot_on_mh <- all_accidents_by_time_weekday %>%
     scale_fill_viridis_c(option = "plasma", direction = -1) +
     theme_minimal(base_size = 12) +
     labs(
-        title = "Unfälle auf der Mariahilfer Straße",
+        title = "Unfälle auf der Mariahilfer Stra<U+00DF>e",
         x = NULL,
         y = NULL,
         fill = "Anzahl Unfälle"
@@ -326,7 +340,7 @@ plot_on_mh <- all_accidents_by_time_weekday %>%
     )
 
 # Plot for "Near Mariahilferstr."
-plot_near_mh <- all_accidents_by_time_weekday %>%
+lst_plot_near_mh <- df_accidents_by_time_weekday_all %>%
     filter(region == "Near Mariahilferstr.") %>%
     ggplot(aes(x = WOCHENTAG, y = UHRZEIT, fill = n)) +
     geom_tile(color = "white", size = 0.5) +
@@ -341,7 +355,7 @@ plot_near_mh <- all_accidents_by_time_weekday %>%
     scale_fill_viridis_c(option = "plasma", direction = -1) +
     theme_minimal(base_size = 12) +
     labs(
-        title = "Unfälle nahe der Mariahilfer Straße (1km Puffer)",
+        title = "Unfälle nahe der Mariahilfer Stra<U+00DF>e (1km Puffer)",
         x = NULL,
         y = NULL,
         fill = "Anzahl Unfälle"
@@ -353,7 +367,7 @@ plot_near_mh <- all_accidents_by_time_weekday %>%
     )
 
 # Plot for "Rest of Vienna"
-plot_vienna <- all_accidents_by_time_weekday %>%
+lst_plot_vienna <- df_accidents_by_time_weekday_all %>%
     filter(region == "Rest of Vienna") %>%
     ggplot(aes(x = WOCHENTAG, y = UHRZEIT, fill = n)) +
     geom_tile(color = "white", size = 0.5, show.legend = F) +
@@ -381,9 +395,9 @@ plot_vienna <- all_accidents_by_time_weekday %>%
     )
 
 # Print the plots
-print(plot_on_mh)
-print(plot_near_mh)
-print(plot_vienna)
+print(lst_plot_on_mh)
+print(lst_plot_near_mh)
+print(lst_plot_vienna)
 ```
 
 
