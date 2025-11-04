@@ -45,15 +45,14 @@ library(shadowtext)
 
 - [CSV der Fahhradunfälle auf der Mahü mit Koordinaten der Unfälle](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb)
 
-- [CSV der Uhrezeiten der Unfälle](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/nur_fahrrad_unfaelle/innere_maria_hilfer_fahrradunfaelle.fgb)
+- [CSV der Uhrezeiten der Unfälle](https://github.com/RobinKohrs/2025_10_mahue/raw/refs/heads/main/data_output/time_of_accidents.csv)
 
 
 ```{r unfalle-in-und-nahe-mahue}
 m <- mapview
 
 
-# ++++++++++++++++++++++++++++++
-# paths to data ----
+# ++++++++++++++++++++++++++++++ # paths to data ----
 # ++++++++++++++++++++++++++++++
 p_unfaelle_gpkg <- here("data_output/unfaelle.gpkg")
 p_innere_mh_gpkg <- here("data_output/innere_maria_hilfer.gpkg")
@@ -96,6 +95,16 @@ sf_unfaelle_wien_31287 %>%
 
 
 # Fahrradunfälle
+
+Von hier an nur noch Fahrrad, E-Bike und Scooter-Unfälle
+
+```
+# filtering for bikes
+sf_unfaelle_bike_wien_31287 <- sf_unfaelle_wien_31287 %>%
+    filter(str_detect(BETEILIGUNG, "(?i)fahrrad|e[- ]?bike|scooter"))
+```
+
+
 
 ```{r dw}
 #| message: false
@@ -220,7 +229,7 @@ vec_total_accidents_vienna_other_count <- sf_unfaelle_wien_31287 %>%
 
 # Erstellen einer Tabelle mit den Ergebnissen
 df_accident_shares <- tibble(
-    Region = c("Auf der Mariahilferstra<U+00DF>e", "Nahe der Mariahilferstra<U+00DF>e", "Rest von Wien"),
+    Region = c("Auf der Mariahilferstraä>e", "Nahe der Mariahilferstraä>e", "Rest von Wien"),
     Bike_Accidents = c(vec_bike_accidents_on_mh_count, vec_bike_accidents_near_mh_count, vec_bike_accidents_vienna_other_count),
     Total_Accidents = c(vec_total_accidents_on_mh_count, vec_total_accidents_near_mh_count, vec_total_accidents_vienna_other_count)
 ) %>%
@@ -231,7 +240,7 @@ knitr::kable(df_accident_shares, digits = 2, caption = "Anteil der Fahrradunfäl
 ```
 
 
-## Zeitpunkt der Fahrradunfälle
+## Zeitpunkt der Fahrradunfälle (oder scooter oder e-bike)
 
 ```{r wann-unfaelle-mahue}
 # The data used in this chunk is already loaded and prepared in previous chunks.
@@ -328,7 +337,7 @@ lst_plot_on_mh <- df_accidents_by_time_weekday_all %>%
     scale_fill_viridis_c(option = "plasma", direction = -1) +
     theme_minimal(base_size = 12) +
     labs(
-        title = "Unfälle auf der Mariahilfer Stra<U+00DF>e",
+        title = "Unfälle auf der Mariahilfer Straä>e",
         x = NULL,
         y = NULL,
         fill = "Anzahl Unfälle"
@@ -355,7 +364,7 @@ lst_plot_near_mh <- df_accidents_by_time_weekday_all %>%
     scale_fill_viridis_c(option = "plasma", direction = -1) +
     theme_minimal(base_size = 12) +
     labs(
-        title = "Unfälle nahe der Mariahilfer Stra<U+00DF>e (1km Puffer)",
+        title = "Unfälle nahe der Mariahilfer Straä>e (1km Puffer)",
         x = NULL,
         y = NULL,
         fill = "Anzahl Unfälle"
@@ -403,6 +412,6 @@ print(lst_plot_vienna)
 
 # Random images from accidents
 
-<iframe id="myFrame" src="https://b.staticfiles.at/elm/static/2025-10-mh/index.html"
+<iframe id="myFrame" src="https://b.staticfiles.at/elm/static/2025-10-fahrrad/index.html"
         width="100%" height="800px" style="border:none;"></iframe>
 

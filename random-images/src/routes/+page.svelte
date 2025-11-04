@@ -1,6 +1,10 @@
 <script>
-import { onMount } from 'svelte'
+import { onMount, tick } from 'svelte'
 import Papa from 'papaparse'
+import { createViewport } from '$lib/js/viewport.js'
+
+let containerEl
+const viewport = createViewport('random-images-unfaelle')
 
 let accidents = $state([])
 let randomAccident = $state(null)
@@ -57,15 +61,32 @@ $effect(() => {
 	}
 })
 
-onMount(() => {
-	fetchAccidents()
+$effect(() => {
+	if (containerEl) {
+		viewport.resize()
+	}
 })
 
-function toggleDetails() {
+onMount(() => {
+	fetchAccidents()
+
+	viewport.initialize()
+
+	viewport.onResize(() => {
+		if (containerEl) {
+			const height = containerEl.offsetHeight
+			viewport.sendHeight(height)
+		}
+	})
+
+	viewport.resize()
+})
+
+async function toggleDetails() {
 	detailsVisible = !detailsVisible
 }
 
-function selectRandomAccident() {
+async function selectRandomAccident() {
 	if (accidents.length > 0) {
 		const randomIndex = Math.floor(Math.random() * accidents.length)
 		randomAccident = accidents[randomIndex]
@@ -77,6 +98,7 @@ function selectRandomAccident() {
 async function updateImageUrl() {
 	if (randomAccident) {
 		const url = `atlas/uid_${randomAccident.uid}.webp?testsasd`
+		console.log('Image path:', url)
 		try {
 			const response = await fetch(url)
 			if (response.ok) {
@@ -113,21 +135,22 @@ async function fetchAccidents() {
 }
 </script>
 
-<div class="dj-container">
+<div class="dj-container" bind:this={containerEl}>
 	{#if accidents.length > 0 && randomAccident}
 		<div class="accident-details">
 			{#if imageUrl}
+				<button
+					class="custom-button top-left hover:bg-red-500"
+					on:click={selectRandomAccident}>
+					Zufälliger Unfall
+				</button>
 				<div class="image-container">
+					<div class="gradient-overlay"></div>
 					<img
 						src={imageUrl}
 						alt="Unfallort"
-						class="accident-image" />
-					<button
-						class="custom-button top-left hover:bg-red-500"
-						on:click={selectRandomAccident}>
-						Zufälliger Unfall
-					</button>
-
+						class="accident-image"
+						on:load={() => viewport.resize()} />
 					<button
 						class="custom-button top-right"
 						on:click={toggleDetails}>
@@ -224,35 +247,6 @@ async function fetchAccidents() {
 	font-weight: 900;
 	font-size: 1.1rem;
 }
-.dj-button {
-	display: block;
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	z-index: 10;
-	margin: 10px auto 0;
-	background-color: #b56161;
-	font-family: 'STMatilda Info Variable', Arial, sans-serif;
-	color: green;
-	padding: 10px 15px;
-	border: none;
-	cursor: pointer;
-	font-size: 16px;
-}
-.dj-button:hover {
-	background-color: #a05454;
-}
-.dj-button.standalone {
-	position: static;
-	margin-top: 10px;
-	background-color: rgba(255, 255, 255, 0.9);
-	color: #333;
-	border: 1px solid #ccc;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-	padding: 8px 12px;
-	font-size: 14px;
-	cursor: pointer;
-}
 .dj-day-section {
 	margin-bottom: 0;
 }
@@ -277,16 +271,32 @@ async function fetchAccidents() {
 	color: #666;
 	text-decoration: none;
 }
+
+.gradient-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 50%;
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 1),
+		rgba(0, 0, 0, 0) 50%
+	);
+}
 .dj-source a:hover {
 	text-decoration: underline;
 }
 .accident-details {
 	margin-bottom: 20px;
 	text-align: center;
+	position: relative;
 }
 .image-container {
 	position: relative;
 	margin-bottom: 10px;
+	border-radius: 8px;
+	overflow: hidden;
 }
 .accident-image {
 	max-width: 100%;
@@ -304,13 +314,20 @@ async function fetchAccidents() {
 	font-size: 14px;
 	cursor: pointer;
 	border-radius: 6px;
+	transition: background-color 0.3s ease;
 }
-.custom-button:hover {
-	background-color: #aaa;
+@media (hover: hover) {
+	.custom-button:hover {
+		background-color: #fdd14f;
+	}
 }
 .custom-button.top-left {
-	top: 10px;
-	left: 10px;
+	position: absolute;
+	top: 0px;
+	border-radius: 0 0 4px 4px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 10;
 }
 .custom-button.top-right {
 	top: 10px;
@@ -362,6 +379,13 @@ async function fetchAccidents() {
 }
 
 @media (max-width: 615px) {
+	.custom-button.top-left {
+		position: static;
+		transform: none;
+		display: block;
+		margin: 0 auto 15px;
+		width: max-content;
+	}
 	.dj-day-section + .dj-day-section {
 		padding-top: 10px;
 	}

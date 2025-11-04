@@ -1,0 +1,170 @@
+<style>
+  @font-face {
+    font-display: swap;
+    font-family: "STMatilda Info Variable";
+    font-style: normal;
+    font-weight: 200 900;
+    src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-info.woff2)
+      format("woff2-variations");
+    unicode-range: U+000a, U+0020-002f, U+0030-0039, U+003a-0040, U+0041-005a,
+      U+005b-0060, U+0061-007a, U+007b-007e, U+2013, U+203a, U+2026, U+201e,
+      U+201c, U+00a9, U+20ac, U+00c0-00ff, U+1e9e, U+011e, U+011f, U+0160,
+      U+0161, U+201a, U+2018, U+00a0-00a8, U+00aa-00bf, U+0100-011d, U+0120-0148,
+      U+014a-015f, U+0162-017f, U+0180-01bf, U+0200-0217, U+0218-021b, U+1f5e9;
+  }
+  @font-face {
+    font-display: swap;
+    font-family: "STMatilda Text Variable";
+    font-style: normal;
+    font-weight: 300 700;
+    src: url(https://b.staticfiles.at/s/fonts/stmatilda/v1/stmatilda-text.woff2)
+      format("woff2-variations");
+    unicode-range: U+000a, U+0020-002f, U+0030-0039, U+003a-0040, U+0041-005a,
+      U+005b-0060, U+0061-007a, U+007b-007e, U+2013, U+203a, U+2026, U+201e,
+      U+201c, U+00a9, U+20ac, U+00c0-00ff, U+1e9e, U+011e, U+011f, U+0160,
+      U+0161, U+201a, U+2018, U+00a0-00a8, U+00aa-00bf, U+0100-011d, U+0120-0148,
+      U+014a-015f, U+0162-017f, U+0180-01bf, U+0200-0217, U+0218-021b;
+  }
+  .map-container {
+    font-family: "STMatilda Info Variable", sans-serif;
+  }
+  .legend-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .legend-scale {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .legend-gradient {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 20px;
+    width: 100%;
+  }
+
+  .legend-color-box {
+    flex: 1 1 100%;
+    position: relative;
+  }
+
+  .legend-gradient .legend-color-box:nth-child(1)::after,
+  .legend-gradient .legend-color-box:nth-child(10)::after,
+  .legend-gradient .legend-color-box:nth-child(19)::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: hsl(0, 0%, 40%);
+  }
+
+  .legend-labels {
+    position: relative;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /* Give it some height to contain the absolutely positioned children */
+    height: 3em;
+  }
+
+  .legend-labels > span {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: bold;
+    color: hsl(0, 0%, 0%);
+  }
+
+  .legend-labels > span:nth-child(1) {
+    left: 0;
+    align-items: flex-start;
+  }
+
+  .legend-labels > span:nth-child(2) {
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+  }
+
+  .legend-labels > span:nth-child(3) {
+    right: 0;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .legend-labels small {
+    font-weight: normal;
+    color: hsl(0, 0%, 40%);
+    font-size: 12px;
+  }
+
+  /* Responsive line break for mobile */
+  @media (max-width: 520px) {
+    .br-mobile {
+      display: block;
+    }
+  }
+
+  .image img {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+</style>
+<div class="map-container">
+  <div class="legend-title">Fahrradunfälle zwischen 2013 und 2024</div>
+  <div class="legend-scale">
+    <div class="legend-gradient">
+      <div class="legend-color-box" style="background-color: #fff5f0"></div>
+      <div class="legend-color-box" style="background-color: #feebe2"></div>
+      <div class="legend-color-box" style="background-color: #fee2d5"></div>
+      <div class="legend-color-box" style="background-color: #fdd3c1"></div>
+      <div class="legend-color-box" style="background-color: #fcc3ab"></div>
+      <div class="legend-color-box" style="background-color: #fcb196"></div>
+      <div class="legend-color-box" style="background-color: #fc9f81"></div>
+      <div class="legend-color-box" style="background-color: #fb8d6d"></div>
+      <div class="legend-color-box" style="background-color: #fb7b5b"></div>
+      <div class="legend-color-box" style="background-color: #fb6a4a"></div>
+      <div class="legend-color-box" style="background-color: #f5553c"></div>
+      <div class="legend-color-box" style="background-color: #f0402f"></div>
+      <div class="legend-color-box" style="background-color: #e32f27"></div>
+      <div class="legend-color-box" style="background-color: #d31f20"></div>
+      <div class="legend-color-box" style="background-color: #c2161b"></div>
+      <div class="legend-color-box" style="background-color: #b11217"></div>
+      <div class="legend-color-box" style="background-color: #9e0d14"></div>
+      <div class="legend-color-box" style="background-color: #820610"></div>
+      <div class="legend-color-box" style="background-color: #67000d"></div>
+    </div>
+    <div class="legend-labels">
+      <span
+        >6-7<small
+          >(z.B. Höhe<span class="br-mobile"></span> Stiftgasse)</small
+        ></span
+      >
+      <span
+        >14-15<small
+          >zw. Königsklostergasse<span class="br-mobile"></span> und
+          Rahlstiege</small
+        ></span
+      >
+      <span
+        >24-25<small
+          >(Höhe<span class="br-mobile"></span> Stumpergasse)</small
+        ></span
+      >
+    </div>
+  </div>
+  <div class="image">
+    <img
+      src="https://b.staticfiles.at/elm/static/2025-dateien/streets_final4.webp?test2test"
+      alt="Map of streets"
+    />
+  </div>
+</div>
