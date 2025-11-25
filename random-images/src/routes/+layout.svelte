@@ -12,7 +12,7 @@ let { children }: LayoutProps = $props()
 </script>
 
 <svelte:head>
-	<title>Mehü Fahrradunfälle</title>
+	<title>Mahü Fahrradunfälle</title>
 </svelte:head>
 
 <div id="dj-app">

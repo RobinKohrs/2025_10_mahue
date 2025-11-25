@@ -3,7 +3,7 @@ function _layout($$renderer, $$props) {
   let { children } = $$props;
   head($$renderer, ($$renderer2) => {
     $$renderer2.title(($$renderer3) => {
-      $$renderer3.push(`<title>Mehü Fahrradunfälle</title>`);
+      $$renderer3.push(`<title>Mahü Fahrradunfälle</title>`);
     });
   });
   $$renderer.push(`<div id="dj-app"><main>`);
