@@ -1,22 +1,22 @@
-WOCHENTAG,region,0 bis 6 Uhr,12 bis 15 Uhr,15 bis 18 Uhr,18 bis 24 Uhr,6 bis 9 Uhr,9 bis 12 Uhr
-Mo,Near Mariahilferstr.,5,70,110,98,55,65
-Di,Near Mariahilferstr.,5,78,114,114,68,77
-Mi,Near Mariahilferstr.,7,74,112,103,58,109
-Do,Near Mariahilferstr.,12,84,112,114,58,77
-Fr,Near Mariahilferstr.,13,91,99,96,48,97
-Sa,Near Mariahilferstr.,31,63,55,62,7,39
-So,Near Mariahilferstr.,19,36,36,62,2,13
-Mo,On Mariahilferstr.,1,8,12,6,6,4
-Di,On Mariahilferstr.,1,3,7,6,2,7
-Mi,On Mariahilferstr.,NA,6,9,7,2,4
-Do,On Mariahilferstr.,NA,6,5,4,6,2
-Fr,On Mariahilferstr.,NA,7,8,8,4,5
-Sa,On Mariahilferstr.,1,5,3,5,NA,4
-So,On Mariahilferstr.,NA,2,2,3,NA,2
-Mo,Rest of Vienna,32,376,610,479,380,337
-Di,Rest of Vienna,36,390,633,572,393,357
-Mi,Rest of Vienna,37,401,626,530,402,367
-Do,Rest of Vienna,38,411,643,541,344,346
-Fr,Rest of Vienna,60,586,530,443,265,344
-Sa,Rest of Vienna,55,328,345,347,60,245
-So,Rest of Vienna,44,297,355,334,26,148
+WOCHENTAG,weekday_short,region,0 bis 6 Uhr,12 bis 15 Uhr,15 bis 18 Uhr,18 bis 24 Uhr,6 bis 9 Uhr,9 bis 12 Uhr
+Mo,M,Near Mariahilferstr.,5,70,110,98,55,65
+Di,D,Near Mariahilferstr.,5,78,114,114,68,77
+Mi,M,Near Mariahilferstr.,7,74,112,103,58,109
+Do,D,Near Mariahilferstr.,12,84,112,114,58,77
+Fr,F,Near Mariahilferstr.,13,91,99,96,48,97
+Sa,S,Near Mariahilferstr.,31,63,55,62,7,39
+So,S,Near Mariahilferstr.,19,36,36,62,2,13
+Mo,M,On Mariahilferstr.,1,8,12,6,6,4
+Di,D,On Mariahilferstr.,1,3,7,6,2,7
+Mi,M,On Mariahilferstr.,NA,6,9,7,2,4
+Do,D,On Mariahilferstr.,NA,6,5,4,6,2
+Fr,F,On Mariahilferstr.,NA,7,8,8,4,5
+Sa,S,On Mariahilferstr.,1,5,3,5,NA,4
+So,S,On Mariahilferstr.,NA,2,2,3,NA,2
+Mo,M,Rest of Vienna,32,376,610,479,380,337
+Di,D,Rest of Vienna,36,390,633,572,393,357
+Mi,M,Rest of Vienna,37,401,626,530,402,367
+Do,D,Rest of Vienna,38,411,643,541,344,346
+Fr,F,Rest of Vienna,60,586,530,443,265,344
+Sa,S,Rest of Vienna,55,328,345,347,60,245
+So,S,Rest of Vienna,44,297,355,334,26,148
