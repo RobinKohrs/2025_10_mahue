@@ -438,3 +438,7 @@ print(lst_plot_vienna)
   Untitled</a> by Robin Kohrs (<a href="https://codepen.io/Robin-Kohrs">@Robin-Kohrs</a>)
   on <a href="https://codepen.io">CodePen</a>.
       </iframe>
+      
+# Uhrzeiten der Unfälle
+
+<iframe title="Wann passieren Unfälle auf der Mahü" aria-label="Tabelle" id="datawrapper-chart-l7EKg" src="https://datawrapper.dwcdn.net/l7EKg/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="485" data-external="1"></iframe><script type="text/javascript">window.addEventListener("message",function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}});</script>
