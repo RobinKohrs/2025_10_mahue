@@ -428,6 +428,13 @@ print(lst_plot_vienna)
 
 # Random images from accidents
 
-<iframe id="myFrame" src=""
+<iframe id="myFrame" src="https://b.staticfiles.at/elm/static/2025-11-mahi/index.html"
         width="100%" height="800px" style="border:none;"></iframe>
 
+# Karte mit Abschnitten der Mahü
+
+<iframe height="300" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/Robin-Kohrs/embed/RNaEwqO?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true">
+      See the Pen <a href="https://codepen.io/Robin-Kohrs/pen/RNaEwqO">
+  Untitled</a> by Robin Kohrs (<a href="https://codepen.io/Robin-Kohrs">@Robin-Kohrs</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+      </iframe>
