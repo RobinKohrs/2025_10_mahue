@@ -23,3 +23,25 @@ data_raw <- read.delim(path_data, sep = "\t") %>%
 # ++++++++++++++++++++++++++++++
 path_out <- sys_make_path(here("data_output/unfaelle.gpkg"))
 write_sf(data_raw, path_out)
+
+
+# ++++++++++++++++++++++++++++++
+# count MH ----
+# ++++++++++++++++++++++++++++++
+geo_mh <- st_read("/Users/rk/projects/dst/2025/10/2025-10-mahue-unfaelle/data_output/innere_maria_hilfer.gpkg") %>%
+  st_buffer(13) %>%
+  st_transform(4326) %>%
+  summarise()
+
+
+geo_unf_mh <- st_intersection(data_raw, geo_mh)
+
+
+# find bicycle accidents
+
+unique(geo_unf_mh$BETEILIGUNG) %>% dput() %>% clipr::write_clip()
+
+geo_unf_mh %>%
+  st_drop_geometry() %>%
+  filter(str_detect(BETEILIGUNG, "Fahrrad|E-Bike|E-Scooter")) %>%
+  count(BETEILIGUNG, sort = T)

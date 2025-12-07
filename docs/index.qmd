@@ -130,7 +130,7 @@ sf_mh_buff_1km_wien <- st_buffer(sf_mh_buff_13m_wien, 1000, singleSide = T)
 # create near zone (1km buffer without the street)
 sf_mh_buff_near_wien <- st_difference(sf_mh_buff_1km_wien, sf_mh_buff_13m_wien)
 
-# accidents on the  mh
+# bike accidents on the  mh
 sf_unfaelle_on_mh_wien <- sf_unfaelle_bike_wien_31287 %>%
     st_filter(sf_mh_buff_13m_wien)
 
@@ -164,7 +164,7 @@ sf_unfaelle_near_mh_count_wien <- sf_unfaelle_near_mh_wien %>%
 
 # accidents in all of vienna
 sf_unfaelle_vienna_other <- sf_unfaelle_bike_wien_31287 %>%
-    st_filter(sf_mh_buff_1km_wien, .predicate = st_disjoint) %>%
+    st_filter(sf_mh_buff_13m_wien, .predicate = st_disjoint) %>%
     st_filter(sf_mh_buff_near_wien, .predicate = st_disjoint)
 
 # count of accidents in all of vienna
@@ -313,6 +313,22 @@ df_accidents_by_time_weekday_all %>%
   pivot_wider(
     names_from = UHRZEIT,
     values_from = n
+  ) %>% 
+  group_by(region) %>% 
+  arrange(WOCHENTAG,.by_group = T) %>% 
+  mutate(
+    weekday_short = str_sub(WOCHENTAG,1,1),
+    .after = WOCHENTAG
+  ) %>% 
+  select(
+    WOCHENTAG, weekday_short, region, # Keep non-time columns at the start
+    `0 bis 6 Uhr`, `6 bis 9 Uhr`, `9 bis 12 Uhr`,
+    `12 bis 15 Uhr`, `15 bis 18 Uhr`, `18 bis 24 Uhr`
+  ) %>%
+  # Step 2: Rename the sorted time columns
+  rename_with(
+    .fn = ~ str_remove(.," Uhr"),
+    .cols = contains("bis")
   ) %>% write_csv(p_out_time_of_bike_accidents)
 
   
@@ -412,6 +428,6 @@ print(lst_plot_vienna)
 
 # Random images from accidents
 
-<iframe id="myFrame" src="https://b.staticfiles.at/elm/static/2025-10-fahrrad/index.html"
+<iframe id="myFrame" src=""
         width="100%" height="800px" style="border:none;"></iframe>
 
